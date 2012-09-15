@@ -3,18 +3,19 @@ var http = require('http'),
     jsdom = require("jsdom"),
     fileType = "",
     options = {
-        host: '2ch.so', //or something else
+        host: '', //the website
         path: false
     };
 
 console.log("Loading images:");
 
-jsdom.env("http://2ch.so/g/res/298668.html", [// the page
+jsdom.env("", [// the page
   'http://code.jquery.com/jquery-1.5.min.js'
 ],
 
 function(errors, window) {
-    window.$(".filesize").find("a").each(function(index,item){
+    window.$("a").each(function(index,item){
+    	
 	        var linkLength = item.href.length;
 		fileType = item.href.substr(linkLength-4, linkLength);
 		
