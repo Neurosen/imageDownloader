@@ -1,24 +1,22 @@
-var http = require('http');
-var fs = require('fs');
-var jsdom = require("jsdom");
-var fileType = "";
-
-var options = {
-    host: '', //the web site
-    path: false
-};
+var http = require('http'),
+    fs = require('fs'),
+    jsdom = require("jsdom"),
+    fileType = "",
+    options = {
+        host: '2ch.so', //or something else
+        path: false
+    };
 
 console.log("Loading images:");
 
-jsdom.env("", [// the page
+jsdom.env("http://2ch.so/g/res/298668.html", [// the page
   'http://code.jquery.com/jquery-1.5.min.js'
 ],
 
 function(errors, window) {
-	
-    window.$("a").each(function(index,item){
-	    
-		fileType = item.href.substr(item.href.length-4,item.href.length);
+    window.$(".filesize").find("a").each(function(index,item){
+	        var linkLength = item.href.length;
+		fileType = item.href.substr(linkLength-4, linkLength);
 		
 	    if(fileType == ".jpg" || ".png" || ".gif"){// 
 		    console.log(item.href);
@@ -31,7 +29,7 @@ function(errors, window) {
 				})
 
 				res.on('end', function(){
-					fs.writeFile("D:/my_app/images/"+item.href.substr(item.href.length-13,item.href.length), imagedata, 'binary', function(err){
+					fs.writeFile("D:/my_app/images/"+item.href.substr(linkLength-13, linkLength), imagedata, 'binary', function(err){
 						if (err) throw err;
 					})
 				})
